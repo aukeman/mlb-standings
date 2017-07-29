@@ -87,7 +87,8 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script typ="text/javascript">
 
-var dataURL = 'https://erikberg.com/mlb/standings.json';
+//var dataURL = 'https://erikberg.com/mlb/standings.json';
+var dataURL = 'standings.json';
 
 function populateStandings( data ){
     populateDivision( $('.american .east tbody'),
@@ -128,7 +129,7 @@ function createEntry(team){
 	    '<td class="wins">'+team.won+'</td>'+
 	    '<td class="losses">'+team.lost+'</td>'+
 	    '<td class="winning-percentage">'+team.win_percentage+'</td>'+
-	    '<td class="games-back">'+team.games_back+'</td>'+
+	    '<td class="games-back">'+(0 < team.games_back ? team.games_back : '-')+'</td>'+
 	    '<td class="last-ten">'+team.last_ten+'</td>');
 }
 
