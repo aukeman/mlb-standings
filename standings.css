@@ -1,0 +1,107 @@
+body {
+    background: 'white';
+    width: 1920px;
+    height: 1080px;
+    margin: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    overflow: hidden;
+
+    background: black;
+    color: #777777;
+
+    font-family: arial;
+    font-size: 20pt;
+}
+
+div.league {
+    position: absolute;
+    left: 25px;
+    width: 1870px;
+    height: 503px;
+
+    border: solid #eeeeee 2px;
+    border-radius: 25px;
+
+    background: #eeeeee;
+}
+
+div.american {
+    top: 25px;
+}
+
+div.national {
+    bottom: 25px;
+}
+
+div.league > h1 {
+    font-family: arial black;
+    text-align: center;
+    font-size: 28pt;
+    margin-top: 10px;
+}
+
+div.division {
+    position: absolute;
+    top: 100px;
+}
+
+div.division.east {
+    left: 10px;
+}
+
+div.division.central {
+    left: 645px;
+}
+
+div.division.west {
+    right: 10px;
+}
+
+th {
+    text-align: left;
+}
+
+th.division-name {
+    text-align: center;
+}    
+
+td {
+    padding: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+td.logo {
+    width: 50px;
+    background-image: url('img/reds.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+
+td.team {
+    width: 200px;
+}
+
+td.wins {
+    width: 50px;
+}
+
+td.losses {
+    width: 50px;
+}
+
+td.winning-percentage {
+    width: 75px;
+}
+
+td.games-back {
+    width: 75px;
+}
+
+td.last-ten {
+    width: 75px;
+}
