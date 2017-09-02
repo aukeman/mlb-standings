@@ -120,6 +120,24 @@ function populateDivision(tbody, teams){
     teams.forEach(function(team){
 	tbody.append( createEntry( team ) );
     });
+
+    var month = new Date().getMonth();
+    var magicNumber = (162 + 1 - teams[0].won - teams[1].lost);
+
+    if ( 0 < magicNumber ){
+      // only show magic numbers after august
+      if ( month == 8 || month == 9 ){ 
+        tbody
+          .find('tr:nth-child(2) td.team')
+          .append(' <span class="magic-number">(' + magicNumber + ')</span>');
+      }
+    }
+    else{
+      // clinched!
+      tbody
+        .find('tr:nth-child(2)')
+        .addClass('clinched');
+    }
 }
 
 function createEntry(team){
@@ -134,7 +152,7 @@ function createEntry(team){
 }
 
 $(function() {
-    $.getJSON(dataURL).done(populateStandings)
-});
+  $.getJSON(dataURL).done(populateStandings)
+}
   </script>
 </html>

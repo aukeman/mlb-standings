@@ -107,3 +107,13 @@ td.games-back {
 td.last-ten {
     width: 75px;
 }
+
+span.magic-number {
+    font-size: smaller;
+    font-style: italic;
+}
+
+tr.clinched {
+    font-weight: bold;
+    font-style: italic;
+}
