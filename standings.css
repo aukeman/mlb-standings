@@ -84,6 +84,10 @@ td.logo {
     background-repeat: no-repeat;
 }
 
+tr.eliminated td {
+    opacity: 0.3;
+}
+
 td.team {
     width: 200px;
 }

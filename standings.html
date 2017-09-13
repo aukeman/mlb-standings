@@ -91,23 +91,33 @@
 var dataURL = 'standings.json';
 
 function populateStandings( data ){
+
+    var alSecondWildcard = getCurrentSecondWildcardTeam(data.standing, 'AL');
+    var nlSecondWildcard = getCurrentSecondWildcardTeam(data.standing, 'NL');
+
     populateDivision( $('.american .east tbody'),
-		      getDivision(data.standing, 'AL', 'E'));
+		      getDivision(data.standing, 'AL', 'E'),
+                      alSecondWildcard );
 
     populateDivision( $('.american .central tbody'),
-		      getDivision(data.standing, 'AL', 'C'));
+		      getDivision(data.standing, 'AL', 'C'),
+                      alSecondWildcard );
     
     populateDivision( $('.american .west tbody'),
-		      getDivision(data.standing, 'AL', 'W'));
+		      getDivision(data.standing, 'AL', 'W'),
+                      alSecondWildcard );
 
     populateDivision( $('.national .east tbody'),
-		      getDivision(data.standing, 'NL', 'E'));
+		      getDivision(data.standing, 'NL', 'E'),
+                      nlSecondWildcard );
 
     populateDivision( $('.national .central tbody'),
-		      getDivision(data.standing, 'NL', 'C'));
+		      getDivision(data.standing, 'NL', 'C'),
+                      nlSecondWildcard );
     
     populateDivision( $('.national .west tbody'),
-		      getDivision(data.standing, 'NL', 'W'));
+		      getDivision(data.standing, 'NL', 'W'),
+                      nlSecondWildcard);
 }
 
 function getDivision( data, l, d ){
@@ -116,13 +126,22 @@ function getDivision( data, l, d ){
 	.sort( function(a, b) { return a.rank - b.rank } );
 }
 
-function populateDivision(tbody, teams){
+
+function getCurrentSecondWildcardTeam( data, l ){
+  return data
+    .filter( function(t) { return t.conference === l } )
+    .filter( function(t) { return 0 < t.games_back } )
+    .sort( function(a, b) { return b.win_percentage - a.win_percentage } )[1]
+}
+
+function populateDivision(tbody, teams, secondWildcard){
     teams.forEach(function(team){
-	tbody.append( createEntry( team ) );
+        var eliminated = isEliminated(team, teams[0], secondWildcard)
+	tbody.append( createEntry( team, eliminated ) );
     });
 
     var month = new Date().getMonth();
-    var magicNumber = (162 + 1 - teams[0].won - teams[1].lost);
+    var magicNumber = calculateMagicNumber(teams[0], teams[1]);
 
     if ( 0 < magicNumber ){
       // only show magic numbers after august
@@ -140,8 +159,14 @@ function populateDivision(tbody, teams){
     }
 }
 
-function createEntry(team){
-    return ('<tr>'+
+function isEliminated( team, divisionLeader, secondWildcard ){
+  return ((team !== divisionLeader && team !== secondWildcard) &&
+          (calculateMagicNumber(divisionLeader, team) < 1) &&
+          (calculateMagicNumber(secondWildcard, team) < 1));
+}
+
+function createEntry(team, eliminated){
+    return ('<tr ' + (eliminated ? ' class="eliminated"' : '') + '>'+
             '<td class="logo" style="background-image: url(img/'+team.last_name.replace(/\s+/g, '').toLowerCase()+'.png)"></td>'+
 	    '<td class="team">'+team.last_name+'</td>'+
 	    '<td class="wins">'+team.won+'</td>'+
@@ -151,8 +176,13 @@ function createEntry(team){
 	    '<td class="last-ten">'+team.last_ten+'</td>');
 }
 
+function calculateMagicNumber(a, b){
+  return (162 + 1 - a.won - b.lost)
+}
+
 $(function() {
   $.getJSON(dataURL).done(populateStandings);
 });
+
   </script>
 </html>
